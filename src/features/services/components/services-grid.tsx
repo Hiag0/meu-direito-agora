@@ -15,7 +15,7 @@ export function ServicesGrid() {
             Benefícios previdenciários
           </p>
           <h2 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000" className="pt-4">
-            Seus direitos, na prática
+            Orientação prática sem promessas
           </h2>
           <p
             data-aos="fade-up"
@@ -23,11 +23,11 @@ export function ServicesGrid() {
             data-aos-duration="1000"
             className="mx-auto max-w-920 pt-4 text-lg font-normal text-SlateBlueText dark:text-darktext"
           >
-            Selecione um benefício para visualizar requisitos, passo a passo e pontos de atenção antes de abrir o pedido.
+            Selecione um benefício para ver requisitos objetivos, checklist e passo a passo no canal oficial.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {siteContent.benefits.map((benefit, index) => (
             <ServiceCard key={benefit.id} benefit={benefit} index={index} />
           ))}
@@ -36,3 +36,4 @@ export function ServicesGrid() {
     </section>
   )
 }
+

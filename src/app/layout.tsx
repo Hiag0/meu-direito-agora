@@ -7,15 +7,13 @@ import './globals.css'
 const dmSans = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Meu Direito Agora - Acesso simplificado a direitos previdenciarios',
+  title: 'Meu Direito Agora - Informação e orientação básica',
   description:
-    'Orientamos cidadaos sobre BPC/LOAS, Auxilio-doenca e denuncias no SUS em linguagem simples e com acao direta.',
-  keywords: ['BPC', 'LOAS', 'auxilio-doenca', 'INSS', 'SUS', 'direitos', 'previdencia'],
+    'Plataforma informativa sobre benefícios previdenciários e canais oficiais de saúde. Triagem inicial sem substituição de análise jurídica individual.',
+  keywords: ['BPC', 'LOAS', 'INSS', 'SUS', 'ouvidoria', 'benefícios', 'direitos sociais', 'informação pública'],
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
       <body className={dmSans.className}>
@@ -28,3 +26,4 @@ export default function RootLayout({
     </html>
   )
 }
+

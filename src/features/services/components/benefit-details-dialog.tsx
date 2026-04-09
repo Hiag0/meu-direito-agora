@@ -13,15 +13,11 @@ interface BenefitDetailsDialogProps {
 
 export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDetailsDialogProps) {
   useEffect(() => {
-    if (!open) {
-      return
-    }
+    if (!open) return
 
     const previousOverflow = document.body.style.overflow
     const onEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onOpenChange(false)
-      }
+      if (event.key === 'Escape') onOpenChange(false)
     }
 
     document.body.style.overflow = 'hidden'
@@ -33,9 +29,7 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
     }
   }, [open, onOpenChange])
 
-  if (!open) {
-    return null
-  }
+  if (!open) return null
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/60 p-4" onClick={() => onOpenChange(false)}>
@@ -49,7 +43,7 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
       >
         <div className="mb-6 flex items-start justify-between gap-4 border-b border-PeriwinkleBorder pb-4 dark:border-dark_border">
           <div>
-            <p className="text-14 font-semibold uppercase tracking-wide text-primary">Como solicitar</p>
+            <p className="text-14 font-semibold uppercase tracking-wide text-primary">Orientação informativa</p>
             <h3 id={`${benefit.id}-title`} className="mt-1 text-28 font-bold text-secondary dark:text-white">
               {benefit.title}
             </h3>
@@ -68,12 +62,12 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
         </div>
 
         <p id={`${benefit.id}-description`} className="mb-6 rounded-14 bg-IcyBreeze p-4 text-16 text-SlateBlueText dark:bg-darklight dark:text-darktext">
-          Siga estes passos em ordem. Leva poucos minutos e você pode fazer tudo online.
+          Use esta orientação para organizar documentos, preencher com mais clareza e seguir para o canal oficial indicado.
         </p>
 
         <div className="grid gap-6 md:grid-cols-2">
           <div>
-            <h4 className="mb-3 text-19 font-semibold text-secondary dark:text-white">O que separar antes</h4>
+            <h4 className="mb-3 text-19 font-semibold text-secondary dark:text-white">Requisitos objetivos</h4>
             <ul className="space-y-2">
               {benefit.requirements.map((requirement) => (
                 <li key={requirement} className="flex items-start gap-2 text-16 text-SlateBlueText dark:text-darktext">
@@ -85,7 +79,7 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
           </div>
 
           <div>
-            <h4 className="mb-3 text-19 font-semibold text-secondary dark:text-white">Passo a passo simples</h4>
+            <h4 className="mb-3 text-19 font-semibold text-secondary dark:text-white">Passo a passo sugerido</h4>
             <ol className="space-y-2">
               {benefit.steps.map((step, index) => (
                 <li
@@ -103,17 +97,13 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
         </div>
 
         <div className="mt-6 rounded-14 bg-IcyBreeze p-4 dark:bg-darklight">
-          <h4 className="mb-2 text-17 font-semibold text-secondary dark:text-white">Dica importante</h4>
+          <h4 className="mb-2 text-17 font-semibold text-secondary dark:text-white">Aviso importante</h4>
           <p className="text-16 text-SlateBlueText dark:text-darktext">{benefit.importantInfo}</p>
+          <p className="mt-2 text-15 text-SlateBlueText dark:text-darktext">{siteContent.disclaimers.short}</p>
         </div>
 
         <div className="mt-7 flex flex-wrap items-center gap-3">
-          <a
-            href={benefit.actionLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-1 hover-filled-slide-down overflow-hidden rounded-lg"
-          >
+          <a href={benefit.actionLink} target="_blank" rel="noopener noreferrer" className="btn btn-1 hover-filled-slide-down overflow-hidden rounded-lg">
             <span>Acessar canal oficial ↗</span>
           </a>
           <button

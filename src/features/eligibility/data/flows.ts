@@ -1,147 +1,142 @@
-/**
- * flows.ts — Dados e tipos do Verificador de Elegibilidade
- *
- * PADRÃO: Single Source of Truth (uma única fonte de verdade).
- * Toda a lógica de perguntas e resultados vive aqui.
- * O hook e os componentes apenas consomem estes dados.
- */
+﻿import { siteContent } from '@/data/content'
 
-// ---------------------------------------------------------------
-// TIPOS — Contratos explícitos com TypeScript
-// ---------------------------------------------------------------
-
-export type ResultVariant = 'success' | 'warning' | 'info'
-export type SituationType = 'deficiencia' | 'idoso' | 'doenca' | 'sus'
+export type ResultVariant = 'possible' | 'not_eligible' | 'depends' | 'missing_info'
+export type SituationType = 'deficiencia' | 'idoso' | 'doenca' | 'acidente' | 'maternidade' | 'sus'
 
 export interface Option {
   label: string
   value: string
-  icon:  string
+  icon: string
 }
 
 export interface EligibilityResult {
-  variant:     ResultVariant
-  title:       string
-  body:        string
+  variant: ResultVariant
+  title: string
+  body: string
   actionLabel: string
-  actionUrl?:  string
+  actionUrl?: string
 }
 
 export interface FlowStep {
   questionText: string
-  options:      Option[]
+  options: Option[]
 }
 
 export interface Flow {
   step2: FlowStep
   step3: FlowStep
-  // Mapa: results[resposta_q2][resposta_q3] = resultado
   results: Record<string, Record<string, EligibilityResult>>
 }
 
-// ---------------------------------------------------------------
-// PERGUNTA INICIAL — comum para todos os fluxos
-// ---------------------------------------------------------------
+const links = siteContent.officialLinks
+
 export const INITIAL_QUESTION: { text: string; options: Option[] } = {
   text: 'Qual é a sua situação principal?',
   options: [
-    { label: 'Tenho deficiência física, intelectual ou sensorial', value: 'deficiencia', icon: '♿' },
-    { label: 'Estou doente e não consigo trabalhar',               value: 'doenca',      icon: '🤒' },
-    { label: 'Tenho 65 anos ou mais',                              value: 'idoso',       icon: '👴' },
-    { label: 'Problema com atendimento no SUS',                    value: 'sus',         icon: '🏥' },
+    { label: 'Pessoa com deficiência (BPC)', value: 'deficiencia', icon: '1' },
+    { label: 'Pessoa idosa com 65 anos ou mais (BPC)', value: 'idoso', icon: '2' },
+    { label: 'Incapacidade temporária para o trabalho', value: 'doenca', icon: '3' },
+    { label: 'Sequela permanente após acidente', value: 'acidente', icon: '4' },
+    { label: 'Situações de salário-maternidade', value: 'maternidade', icon: '5' },
+    { label: 'Problema de atendimento no SUS/INSS', value: 'sus', icon: '6' },
   ],
 }
 
-// ---------------------------------------------------------------
-// FLUXOS — Árvore de decisão completa
-// ---------------------------------------------------------------
 export const FLOWS: Record<SituationType, Flow> = {
-
   deficiencia: {
     step2: {
-      questionText: 'Qual é a renda familiar mensal por pessoa da casa?',
+      questionText:
+        'Você possui CadÚnico atualizado e sua família se enquadra, em regra, no critério econômico vigente do benefício?',
       options: [
-        { label: 'Até R$ 218 por pessoa',          value: 'baixa', icon: '✓' },
-        { label: 'Entre R$ 218 e R$ 436',           value: 'media', icon: '~' },
-        { label: 'Acima de R$ 436',                 value: 'alta',  icon: '✕' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+        { label: 'Não sei informar', value: 'nao_sei', icon: '?' },
       ],
     },
     step3: {
-      questionText: 'A deficiência impede atividades da vida independente ou do trabalho?',
+      questionText: 'Você possui laudos/exames recentes e indício de impedimento de longo prazo?',
       options: [
-        { label: 'Sim, de longa duração (2+ anos)', value: 'sim_long',  icon: '✓' },
-        { label: 'Sim, mas por período curto',       value: 'sim_curto', icon: '~' },
-        { label: 'Não tenho certeza',               value: 'nao_sabe',  icon: '?' },
+        { label: 'Sim, tenho documentação mínima', value: 'sim', icon: 'S' },
+        { label: 'Parcialmente (documentos incompletos)', value: 'parcial', icon: 'P' },
+        { label: 'Não', value: 'nao', icon: 'N' },
       ],
     },
     results: {
-      baixa: {
-        sim_long: {
-          variant:     'success',
-          title:       'Você provavelmente tem direito ao BPC/LOAS',
-          body:        'Renda baixa + deficiência de longa duração: seu caso se encaixa nos critérios principais. Procure uma agência do INSS com documentos de identidade, comprovante de renda familiar e laudo médico.',
-          actionLabel: 'Solicitar BPC online →',
-          actionUrl:   'https://meu.inss.gov.br',
+      sim: {
+        sim: {
+          variant: 'depends',
+          title: 'Caso depende de avaliação médica e social',
+          body:
+            'Seu caso pode se enquadrar para análise inicial, mas a confirmação depende de avaliação médica e social pelo órgão competente.',
+          actionLabel: 'Iniciar pedido oficial de BPC',
+          actionUrl: links.bpcService,
         },
-        sim_curto: {
-          variant:     'info',
-          title:       'Pode haver direito — avalie com especialista',
-          body:        'Sua deficiência pode não se enquadrar como "de longa duração" (mínimo 2 anos). Mas um perito do INSS avaliará seu caso. Vale solicitar a análise.',
-          actionLabel: 'Agendar perícia no INSS →',
-          actionUrl:   'https://meu.inss.gov.br',
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam documentos ou informações mínimas',
+          body:
+            'Sem documentação médica mínima e dados cadastrais consistentes, a triagem fica limitada. Reúna os documentos antes de protocolar.',
+          actionLabel: 'Ver orientação oficial do BPC',
+          actionUrl: links.bpcService,
         },
-        nao_sabe: {
-          variant:     'info',
-          title:       'Consulte um assistente social',
-          body:        'O CRAS (Centro de Referência de Assistência Social) da sua cidade pode te ajudar a entender se sua situação se qualifica para o BPC/LOAS — gratuitamente.',
-          actionLabel: 'Saiba o que é o CRAS →',
-          actionUrl:   'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
-        },
-      },
-      media: {
-        sim_long: {
-          variant:     'warning',
-          title:       'Atenção: a renda pode ser um obstáculo',
-          body:        'Para o BPC, a renda por pessoa da casa precisa ser de até 1/4 do salário mínimo (R$ 359). Sua renda pode estar acima desse limite. Consulte um assistente social — há exceções.',
-          actionLabel: 'Ver exceções na renda →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
-        },
-        sim_curto: {
-          variant:     'warning',
-          title:       'Dois pontos a avaliar',
-          body:        'Tanto a renda quanto o prazo da deficiência podem ser obstáculos. Recomendamos consultar o CRAS da sua cidade para uma avaliação individual gratuita.',
-          actionLabel: 'Encontrar o CRAS →',
-          actionUrl:   'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
-        },
-        nao_sabe: {
-          variant:     'warning',
-          title:       'Consulte o CRAS antes de desistir',
-          body:        'O assistente social do CRAS pode avaliar seu caso gratuitamente e identificar caminhos que você pode não conhecer.',
-          actionLabel: 'O que é o CRAS →',
-          actionUrl:   'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
+        nao: {
+          variant: 'not_eligible',
+          title: 'Pode não atender aos requisitos básicos informados',
+          body:
+            'Sem indício documentado de impedimento de longo prazo, você pode não atender aos requisitos iniciais desta triagem.',
+          actionLabel: 'Buscar orientação no CRAS',
+          actionUrl: links.crasInfo,
         },
       },
-      alta: {
-        sim_long: {
-          variant:     'info',
-          title:       'BPC/LOAS possivelmente não se aplica',
-          body:        'A renda está acima do limite de R$ 218. Mas verifique com um assistente social — despesas com saúde podem ser deduzidas do cálculo.',
-          actionLabel: 'Ver exceções de renda →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+      nao: {
+        sim: {
+          variant: 'not_eligible',
+          title: 'Requisitos básicos não confirmados na triagem',
+          body:
+            'Sem enquadramento cadastral/econômico informado, o fluxo inicial do BPC pode não ser atendido neste momento.',
+          actionLabel: 'Regularizar dados e conferir regras',
+          actionUrl: links.bpcService,
         },
-        sim_curto: {
-          variant:     'info',
-          title:       'Consulte um assistente social',
-          body:        'Existem situações especiais onde despesas com saúde reduzem a renda considerada. Vale uma análise profissional.',
-          actionLabel: 'Entender o cálculo →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+        parcial: {
+          variant: 'not_eligible',
+          title: 'Requisitos básicos não confirmados na triagem',
+          body:
+            'Sem CadÚnico/critério econômico informado e com documentos incompletos, a triagem inicial não avança com segurança.',
+          actionLabel: 'Conferir orientação oficial',
+          actionUrl: links.bpcService,
         },
-        nao_sabe: {
-          variant:     'info',
-          title:       'Consulte um assistente social',
-          body:        'Mesmo com renda acima do limite, consulte um assistente social para análise individual do seu caso.',
-          actionLabel: 'Encontrar o CRAS →',
-          actionUrl:   'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
+        nao: {
+          variant: 'not_eligible',
+          title: 'Requisitos básicos não confirmados na triagem',
+          body: 'Pelas respostas informadas, o caso pode não atender aos requisitos básicos para abertura inicial do BPC.',
+          actionLabel: 'Conferir critérios no portal oficial',
+          actionUrl: links.bpcService,
+        },
+      },
+      nao_sei: {
+        sim: {
+          variant: 'depends',
+          title: 'Caso depende de avaliação do órgão competente',
+          body:
+            'Há indícios documentais, mas sem confirmação dos dados cadastrais e econômicos a análise final depende do órgão competente.',
+          actionLabel: 'Consultar orientação oficial',
+          actionUrl: links.bpcService,
+        },
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body:
+            'Sem confirmação cadastral e com documentos incompletos, é recomendável organizar a documentação antes do protocolo.',
+          actionLabel: 'Verificar apoio no CRAS',
+          actionUrl: links.crasInfo,
+        },
+        nao: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body:
+            'A triagem não consegue avançar sem dados cadastrais/econômicos e sem documentação mínima de saúde.',
+          actionLabel: 'Entender critérios do BPC',
+          actionUrl: links.bpcService,
         },
       },
     },
@@ -149,67 +144,70 @@ export const FLOWS: Record<SituationType, Flow> = {
 
   idoso: {
     step2: {
-      questionText: 'A renda familiar mensal por pessoa da casa é:',
+      questionText: 'Você possui 65 anos ou mais?',
       options: [
-        { label: 'Até R$ 218 por pessoa', value: 'baixa', icon: '✓' },
-        { label: 'Entre R$ 218 e R$ 436', value: 'media', icon: '~' },
-        { label: 'Acima de R$ 436',       value: 'alta',  icon: '✕' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
       ],
     },
     step3: {
-      questionText: 'Você tem CPF em situação regular?',
+      questionText:
+        'Você possui CadÚnico atualizado, renda por pessoa dentro do limite legal vigente (em regra) e sem acúmulo incompatível declarado?',
       options: [
-        { label: 'Sim',               value: 'sim', icon: '✓' },
-        { label: 'Não / Irregular',   value: 'nao', icon: '✕' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+        { label: 'Preciso regularizar/confirmar', value: 'regularizar', icon: 'R' },
       ],
     },
     results: {
-      baixa: {
+      sim: {
         sim: {
-          variant:     'success',
-          title:       'Você provavelmente tem direito ao BPC para idosos',
-          body:        '65 anos ou mais + renda baixa + CPF regular: você se enquadra nos critérios do BPC para idosos. Procure uma agência do INSS com RG, CPF e comprovante de renda familiar.',
-          actionLabel: 'Solicitar BPC para idoso →',
-          actionUrl:   'https://meu.inss.gov.br',
+          variant: 'possible',
+          title: 'Possível enquadramento inicial para BPC Idoso',
+          body:
+            'Pelas informações fornecidas, pode haver indícios de enquadramento inicial. A concessão depende da análise administrativa do órgão competente.',
+          actionLabel: 'Acessar pedido oficial do BPC',
+          actionUrl: links.bpcService,
         },
         nao: {
-          variant:     'warning',
-          title:       'Regularize o CPF primeiro',
-          body:        'O CPF é obrigatório para qualquer benefício federal. Regularize gratuitamente pelo site da Receita Federal ou em agências dos Correios.',
-          actionLabel: 'Regularizar CPF →',
-          actionUrl:   'https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf',
+          variant: 'not_eligible',
+          title: 'Pode não atender aos requisitos básicos informados',
+          body:
+            'Com resposta negativa para critério cadastral/econômico ou acúmulo incompatível, a triagem indica possível não enquadramento inicial.',
+          actionLabel: 'Conferir critérios no portal oficial',
+          actionUrl: links.bpcService,
+        },
+        regularizar: {
+          variant: 'missing_info',
+          title: 'Faltam documentos ou regularização mínima',
+          body:
+            'Antes de seguir, regularize CadÚnico e dados familiares para melhorar a segurança da triagem e do pedido oficial.',
+          actionLabel: 'Buscar apoio no CRAS',
+          actionUrl: links.crasInfo,
         },
       },
-      media: {
+      nao: {
         sim: {
-          variant:     'warning',
-          title:       'A renda pode impedir o benefício',
-          body:        'O limite é de R$ 218 por pessoa da família. Sua situação está no limite. Consulte o CRAS — há exceções para idosos com despesas de saúde elevadas.',
-          actionLabel: 'Ver exceções →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+          variant: 'not_eligible',
+          title: 'Não atende requisito básico de idade informado',
+          body:
+            'Para esta trilha de BPC Idoso, a idade mínima é requisito objetivo. Avalie outras trilhas de benefícios conforme seu caso.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
         },
         nao: {
-          variant:     'warning',
-          title:       'Regularize o CPF e consulte o CRAS',
-          body:        'Dois pontos a resolver: regularizar o CPF e verificar se a renda se enquadra. O CRAS da sua cidade orienta gratuitamente.',
-          actionLabel: 'O que é o CRAS →',
-          actionUrl:   'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
+          variant: 'not_eligible',
+          title: 'Não atende requisito básico de idade informado',
+          body: 'Sem o requisito objetivo de idade nesta trilha, o enquadramento inicial para BPC Idoso não é indicado.',
+          actionLabel: 'Conferir serviços disponíveis no Meu INSS',
+          actionUrl: links.meuInss,
         },
-      },
-      alta: {
-        sim: {
-          variant:     'info',
-          title:       'Renda acima do limite',
-          body:        'A renda está acima do máximo para o BPC. Verifique se há despesas com saúde ou medicamentos que possam ser descontados do cálculo.',
-          actionLabel: 'Ver cálculo de renda →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
-        },
-        nao: {
-          variant:     'info',
-          title:       'Regularize o CPF e verifique',
-          body:        'Mesmo com renda acima do limite, regularize o CPF e consulte um assistente social para análise individual.',
-          actionLabel: 'Regularizar CPF →',
-          actionUrl:   'https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf',
+        regularizar: {
+          variant: 'not_eligible',
+          title: 'Não atende requisito básico de idade informado',
+          body: 'A regularização documental é importante, mas nesta trilha o requisito de idade permanece indispensável.',
+          actionLabel: 'Ver outros serviços oficiais',
+          actionUrl: links.meuInss,
         },
       },
     },
@@ -217,67 +215,262 @@ export const FLOWS: Record<SituationType, Flow> = {
 
   doenca: {
     step2: {
-      questionText: 'Você tem carteira assinada ou pagou INSS nos últimos 12 meses?',
+      questionText: 'Você está temporariamente incapacitado para o trabalho e precisa de afastamento?',
       options: [
-        { label: 'Sim, tenho contribuições',  value: 'sim', icon: '✓' },
-        { label: 'Não, trabalho informal',    value: 'nao', icon: '✕' },
-        { label: 'Sou MEI',                   value: 'mei', icon: '~' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+        { label: 'Não sei informar', value: 'nao_sei', icon: '?' },
       ],
     },
     step3: {
-      questionText: 'Seu médico diz que você ficará incapaz de trabalhar por quantos dias?',
+      questionText: 'Você possui documento médico válido e qualidade de segurado/contribuição compatível?',
       options: [
-        { label: 'Mais de 15 dias', value: 'longo', icon: '✓' },
-        { label: '15 dias ou menos', value: 'curto', icon: '~' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Parcialmente', value: 'parcial', icon: 'P' },
+        { label: 'Não', value: 'nao', icon: 'N' },
       ],
     },
     results: {
       sim: {
-        longo: {
-          variant:     'success',
-          title:       'Você provavelmente tem direito ao Auxílio-doença',
-          body:        'Com contribuições ao INSS e incapacidade por mais de 15 dias, você pode solicitar o Auxílio-doença. Agende perícia médica pelo Meu INSS com seu laudo médico.',
-          actionLabel: 'Agendar pelo Meu INSS →',
-          actionUrl:   'https://meu.inss.gov.br',
+        sim: {
+          variant: 'possible',
+          title: 'Possível enquadramento inicial para análise administrativa',
+          body:
+            'Você pode ter indicativos para solicitar análise do benefício, desde que documentos médicos e requisitos previdenciários sejam confirmados pelo órgão competente.',
+          actionLabel: 'Solicitar pelo Meu INSS',
+          actionUrl: links.meuInss,
         },
-        curto: {
-          variant:     'info',
-          title:       'Auxílio-doença começa no 16º dia',
-          body:        'Para afastamentos de até 15 dias, quem paga é o empregador. O INSS entra a partir do 16º dia. Se você se recuperar antes, não há benefício do INSS.',
-          actionLabel: 'Entender mais →',
-          actionUrl:   'https://www.gov.br/inss/pt-br/saiba-mais/seus-direitos-e-deveres/calculos-e-valores/calculo-da-renda-mensal-inicial-rmi-dos-beneficios',
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam documentos ou dados previdenciários mínimos',
+          body:
+            'A triagem indica necessidade de complementar laudos e/ou dados de vinculação previdenciária antes de seguir com mais segurança.',
+          actionLabel: 'Acessar Meu INSS para conferir exigências',
+          actionUrl: links.meuInss,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Pode não atender aos requisitos básicos informados',
+          body:
+            'Sem documentação mínima e sem qualidade de segurado/contribuição compatível informada, o enquadramento inicial fica comprometido.',
+          actionLabel: 'Ver canais de atendimento do INSS',
+          actionUrl: links.inssCentral135,
         },
       },
       nao: {
-        longo: {
-          variant:     'warning',
-          title:       'Trabalho informal dificulta o acesso',
-          body:        'Sem contribuições ao INSS, não há direito ao Auxílio-doença padrão. É possível se filiação como Segurado Facultativo em alguns casos. Consulte o INSS.',
-          actionLabel: 'Ver opções →',
-          actionUrl:   'https://www.gov.br/inss/pt-br',
+        sim: {
+          variant: 'not_eligible',
+          title: 'Não há indício inicial de incapacidade temporária informada',
+          body:
+            'Nesta trilha, a incapacidade temporária para o trabalho é requisito objetivo para abertura inicial do pedido.',
+          actionLabel: 'Conferir outros serviços no Meu INSS',
+          actionUrl: links.meuInss,
         },
-        curto: {
-          variant:     'warning',
-          title:       'Sem contribuições, sem auxílio-doença',
-          body:        'Sem INSS recolhido, o Auxílio-doença não se aplica. Verifique se tem direito ao BPC/LOAS se tiver deficiência permanente.',
-          actionLabel: 'Ver BPC/LOAS →',
-          actionUrl:   'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+        parcial: {
+          variant: 'not_eligible',
+          title: 'Não há indício inicial de incapacidade temporária informada',
+          body:
+            'Mesmo com documentos parciais, sem incapacidade temporária informada o fluxo inicial deste benefício pode não se aplicar.',
+          actionLabel: 'Ver orientações no Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Não há indício inicial de incapacidade temporária informada',
+          body: 'Pelas respostas, esta trilha específica não apresenta requisitos básicos informados para seguir.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
         },
       },
-      mei: {
-        longo: {
-          variant:     'success',
-          title:       'MEI tem direito ao Auxílio-doença',
-          body:        'MEI contribui para o INSS e tem direito ao Auxílio-doença. Verifique se suas contribuições mensais estão em dia antes de solicitar.',
-          actionLabel: 'Verificar contribuições →',
-          actionUrl:   'https://meu.inss.gov.br',
+      nao_sei: {
+        sim: {
+          variant: 'depends',
+          title: 'Caso depende de avaliação do órgão competente',
+          body:
+            'Com dúvida sobre o quadro incapacitante, a conclusão depende de avaliação técnica e administrativa do órgão competente.',
+          actionLabel: 'Iniciar orientação no Meu INSS',
+          actionUrl: links.meuInss,
         },
-        curto: {
-          variant:     'info',
-          title:       'Auxílio começa só no 16º dia',
-          body:        'Como MEI, o INSS só paga a partir do 16º dia de afastamento. Mantenha suas contribuições mensais em dia para garantir o direito.',
-          actionLabel: 'Saiba mais →',
-          actionUrl:   'https://meu.inss.gov.br',
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body:
+            'Há dúvida sobre incapacidade e documentação parcial. Reúna laudos e confirme dados previdenciários antes do protocolo.',
+          actionLabel: 'Conferir exigências no Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        nao: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body: 'Sem indicação objetiva de incapacidade e sem documentos mínimos, a triagem não consegue avançar com segurança.',
+          actionLabel: 'Buscar orientação pelo 135',
+          actionUrl: links.inssCentral135,
+        },
+      },
+    },
+  },
+
+  acidente: {
+    step2: {
+      questionText: 'Houve acidente de qualquer natureza com sequela permanente?',
+      options: [
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+        { label: 'Não sei informar', value: 'nao_sei', icon: '?' },
+      ],
+    },
+    step3: {
+      questionText:
+        'A sequela reduziu sua capacidade para o trabalho habitual e você possui documentação médica mínima?',
+      options: [
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Parcialmente', value: 'parcial', icon: 'P' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+      ],
+    },
+    results: {
+      sim: {
+        sim: {
+          variant: 'depends',
+          title: 'Caso depende de avaliação técnica do INSS',
+          body:
+            'Pode haver indicativo de enquadramento inicial, mas a confirmação depende da análise da sequela, da redução da capacidade laboral e dos demais requisitos previdenciários pelo INSS.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam documentos ou informações mínimas',
+          body:
+            'A triagem indica necessidade de organizar laudos e comprovações da redução da capacidade para o trabalho habitual.',
+          actionLabel: 'Ver canais de atendimento do INSS',
+          actionUrl: links.inssOuvidoria,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Pode não atender aos requisitos básicos informados',
+          body:
+            'Sem informação sobre redução da capacidade laboral habitual, o enquadramento inicial para esta trilha pode não se confirmar.',
+          actionLabel: 'Conferir orientações no Meu INSS',
+          actionUrl: links.meuInss,
+        },
+      },
+      nao: {
+        sim: {
+          variant: 'not_eligible',
+          title: 'Não há indício básico de acidente com sequela permanente',
+          body: 'Nesta trilha, acidente com sequela permanente é requisito objetivo para avaliação inicial.',
+          actionLabel: 'Ver outros serviços do INSS',
+          actionUrl: links.meuInss,
+        },
+        parcial: {
+          variant: 'not_eligible',
+          title: 'Não há indício básico de acidente com sequela permanente',
+          body: 'Sem esse requisito objetivo informado, a triagem inicial desta trilha não avança.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Não há indício básico de acidente com sequela permanente',
+          body: 'Pelas respostas, esta trilha específica pode não ser aplicável ao seu caso neste momento.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
+        },
+      },
+      nao_sei: {
+        sim: {
+          variant: 'depends',
+          title: 'Caso depende de avaliação do órgão competente',
+          body:
+            'Com dúvida sobre a situação de acidente/sequela, a conclusão depende de avaliação técnica do INSS e documentação apresentada.',
+          actionLabel: 'Iniciar orientação no Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body: 'Organize provas do acidente, laudos e dados de segurado para reduzir exigências na análise administrativa.',
+          actionLabel: 'Conferir atendimento do INSS',
+          actionUrl: links.inssCentral135,
+        },
+        nao: {
+          variant: 'missing_info',
+          title: 'Faltam informações para triagem mais segura',
+          body: 'Sem informações objetivas sobre sequela e sem documentação mínima, a triagem não consegue indicar enquadramento inicial.',
+          actionLabel: 'Buscar orientação no INSS',
+          actionUrl: links.inssCentral135,
+        },
+      },
+    },
+  },
+
+  maternidade: {
+    step2: {
+      questionText:
+        'O caso envolve parto, adoção, guarda judicial para adoção, natimorto ou aborto não criminoso?',
+      options: [
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+      ],
+    },
+    step3: {
+      questionText: 'Há qualidade de segurado e documentos básicos do evento/vínculo para o pedido?',
+      options: [
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Parcialmente', value: 'parcial', icon: 'P' },
+        { label: 'Não', value: 'nao', icon: 'N' },
+      ],
+    },
+    results: {
+      sim: {
+        sim: {
+          variant: 'possible',
+          title: 'Possível enquadramento inicial para salário-maternidade',
+          body:
+            'Você pode reunir elementos para iniciar a solicitação, mas a confirmação depende da análise administrativa do caso e da documentação apresentada.',
+          actionLabel: 'Solicitar salário-maternidade no canal oficial',
+          actionUrl: links.salarioMaternidadeService,
+        },
+        parcial: {
+          variant: 'missing_info',
+          title: 'Faltam documentos ou comprovações mínimas',
+          body:
+            'A triagem indica necessidade de complementar documentos do evento e de qualidade de segurado/vínculo antes do protocolo.',
+          actionLabel: 'Ver orientação oficial do serviço',
+          actionUrl: links.salarioMaternidadeService,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Pode não atender aos requisitos básicos informados',
+          body:
+            'Sem qualidade de segurado/documentos mínimos informados, o enquadramento inicial desta trilha pode não se confirmar.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
+        },
+      },
+      nao: {
+        sim: {
+          variant: 'not_eligible',
+          title: 'Evento informado não corresponde a esta trilha',
+          body:
+            'Para esta trilha, é necessário que o caso esteja dentro das hipóteses legais específicas do salário-maternidade.',
+          actionLabel: 'Conferir serviços no Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        parcial: {
+          variant: 'not_eligible',
+          title: 'Evento informado não corresponde a esta trilha',
+          body: 'Mesmo com documentos parciais, sem evento compatível esta trilha não apresenta requisitos básicos informados.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
+        },
+        nao: {
+          variant: 'not_eligible',
+          title: 'Evento informado não corresponde a esta trilha',
+          body: 'Pelas respostas, esta trilha específica pode não ser aplicável ao seu caso.',
+          actionLabel: 'Acessar Meu INSS',
+          actionUrl: links.meuInss,
         },
       },
     },
@@ -285,69 +478,73 @@ export const FLOWS: Record<SituationType, Flow> = {
 
   sus: {
     step2: {
-      questionText: 'O que aconteceu no SUS?',
+      questionText: 'Qual tipo de manifestação descreve melhor o seu caso?',
       options: [
-        { label: 'Atendimento foi negado',             value: 'negado',     icon: '!' },
-        { label: 'Atendimento foi irregular ou descuidado', value: 'irregular', icon: '!' },
-        { label: 'Falta de medicamento na unidade',    value: 'medicamento', icon: '!' },
+        { label: 'Reclamação sobre atendimento/serviço', value: 'reclamacao', icon: 'R' },
+        { label: 'Denúncia de irregularidade', value: 'denuncia', icon: 'D' },
+        { label: 'Solicitação de providência/informação', value: 'solicitacao', icon: 'S' },
       ],
     },
     step3: {
-      questionText: 'Você tentou resolver diretamente com a unidade de saúde?',
+      questionText: 'Você possui informações mínimas (o que ocorreu, quando, onde e protocolo, se houver)?',
       options: [
-        { label: 'Sim, mas não resolveu', value: 'sim', icon: '~' },
-        { label: 'Não ainda',             value: 'nao', icon: '?' },
+        { label: 'Sim', value: 'sim', icon: 'S' },
+        { label: 'Não', value: 'nao', icon: 'N' },
       ],
     },
     results: {
-      negado: {
+      reclamacao: {
         sim: {
-          variant:     'success',
-          title:       'Você pode registrar denúncia formal',
-          body:        'Atendimento negado sem resolução direta: registre no 136 (gratuito) ou na Ouvidoria SUS online. Anote data, unidade e nome do responsável.',
-          actionLabel: 'Acessar Ouvidoria SUS →',
-          actionUrl:   'https://www.gov.br/saude/pt-br/canais_atendimento/ouvidoria',
+          variant: 'possible',
+          title: 'Possível encaminhamento inicial para canal oficial',
+          body:
+            'Com as informações básicas organizadas, você pode registrar sua manifestação de forma objetiva e acompanhar pelo protocolo.',
+          actionLabel: 'Registrar no OuvSUS',
+          actionUrl: links.ouvSusManifestacao,
         },
         nao: {
-          variant:     'info',
-          title:       'Tente primeiro na unidade',
-          body:        'Antes de formalizar a denúncia, procure o responsável ou gerente da unidade. Se não resolver, registre no 136 ou na Ouvidoria SUS.',
-          actionLabel: 'Ouvidoria SUS →',
-          actionUrl:   'https://www.gov.br/saude/pt-br/canais_atendimento/ouvidoria',
+          variant: 'missing_info',
+          title: 'Faltam informações mínimas para registrar com segurança',
+          body: 'Antes de enviar, organize data, local, fatos e documentos para reduzir retrabalho e facilitar o acompanhamento.',
+          actionLabel: 'Abrir orientação no Fala.Br',
+          actionUrl: links.falaBrHome,
         },
       },
-      irregular: {
+      denuncia: {
         sim: {
-          variant:     'success',
-          title:       'Registre sua ocorrência',
-          body:        'Atendimento irregular é violação do direito à saúde (Art. 196 CF/88). Registre no 136, Ouvidoria SUS ou Fala.BR (CGU) para acompanhar sua reclamação.',
-          actionLabel: 'Acessar Fala.BR →',
-          actionUrl:   'https://falabr.cgu.gov.br',
+          variant: 'possible',
+          title: 'Possível encaminhamento inicial para denúncia formal',
+          body: 'Você pode registrar denúncia em canal oficial, com descrição objetiva dos fatos e acompanhamento por protocolo.',
+          actionLabel: 'Registrar no Fala.Br',
+          actionUrl: links.falaBrHome,
         },
         nao: {
-          variant:     'info',
-          title:       'Documente e registre formalmente',
-          body:        'Anote datas, horários e nomes. Tente resolução direta na unidade. Se não resolver, registre no 136 ou na Ouvidoria SUS.',
-          actionLabel: 'Ouvidoria SUS →',
-          actionUrl:   'https://www.gov.br/saude/pt-br/canais_atendimento/ouvidoria',
+          variant: 'missing_info',
+          title: 'Faltam informações mínimas para denunciar com segurança',
+          body: 'Sem dados mínimos, a manifestação pode ficar incompleta. Reúna fatos essenciais antes do envio no canal oficial.',
+          actionLabel: 'Ver serviço oficial de manifestação',
+          actionUrl: links.falaBrGovService,
         },
       },
-      medicamento: {
+      solicitacao: {
         sim: {
-          variant:     'success',
-          title:       'Falta de medicamento também é denunciável',
-          body:        'Registre na Ouvidoria do SUS (136). A falta de medicamentos pode configurar violação do direito à saúde.',
-          actionLabel: 'Denunciar →',
-          actionUrl:   'https://www.gov.br/saude/pt-br/canais_atendimento/ouvidoria',
+          variant: 'possible',
+          title: 'Possível encaminhamento inicial para solicitação oficial',
+          body: 'Com os dados organizados, você pode iniciar solicitação pelo canal oficial e acompanhar o andamento pelo protocolo.',
+          actionLabel: 'Acessar canal oficial OuvSUS',
+          actionUrl: links.ouvSus,
         },
         nao: {
-          variant:     'info',
-          title:       'Verifique disponibilidade antes',
-          body:        'Confirme com a unidade se há previsão de reabastecimento. Se persistir, registre denúncia no 136 com o nome do medicamento e a necessidade médica.',
-          actionLabel: 'Ouvidoria SUS →',
-          actionUrl:   'https://www.gov.br/saude/pt-br/canais_atendimento/ouvidoria',
+          variant: 'missing_info',
+          title: 'Faltam informações mínimas para a solicitação',
+          body: 'A triagem recomenda organizar informações essenciais antes do envio para aumentar clareza e rastreabilidade.',
+          actionLabel: 'Acessar Fala.Br',
+          actionUrl: links.falaBrHome,
         },
       },
     },
   },
 }
+
+
+

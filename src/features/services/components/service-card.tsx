@@ -22,7 +22,7 @@ export function ServiceCard({ benefit, index }: ServiceCardProps) {
         data-aos-duration="1000"
         className="group flex h-full flex-col rounded-14 border border-PeriwinkleBorder bg-white p-8 shadow-round-box transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-dark_border dark:bg-darklight"
       >
-        <p className="mb-4 text-14 font-semibold uppercase tracking-[0.2em] text-primary">Benefício {index + 1}</p>
+        <p className="mb-4 text-14 font-semibold uppercase tracking-[0.2em] text-primary">Serviço {index + 1}</p>
         <h3 className="pb-3 text-24 font-bold text-secondary dark:text-white">{benefit.title}</h3>
         <p className="flex-1 text-17 leading-relaxed text-SlateBlueText dark:text-darktext">{benefit.description}</p>
 
@@ -32,7 +32,7 @@ export function ServiceCard({ benefit, index }: ServiceCardProps) {
             onClick={() => setDialogOpen(true)}
             className="rounded-lg bg-primary px-5 py-3 text-17 font-medium text-white transition-colors hover:bg-RegalBlue"
           >
-            Como solicitar
+            Ver orientação
           </button>
           <a
             href={benefit.actionLink}
@@ -49,3 +49,4 @@ export function ServiceCard({ benefit, index }: ServiceCardProps) {
     </>
   )
 }
+

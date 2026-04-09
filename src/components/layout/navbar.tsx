@@ -1,6 +1,5 @@
 ﻿'use client'
 
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const navLinks = [
@@ -14,7 +13,11 @@ const navLinks = [
 function applyTheme(theme: 'light' | 'dark') {
   const root = document.documentElement
   root.classList.toggle('dark', theme === 'dark')
-  localStorage.setItem('mda-theme', theme)
+  try {
+    localStorage.setItem('mda-theme', theme)
+  } catch {
+    // Ignore storage failures (private mode / restricted context).
+  }
 }
 
 export function Navbar() {
@@ -26,11 +29,19 @@ export function Navbar() {
   useEffect(() => {
     setMounted(true)
 
-    const savedTheme = localStorage.getItem('mda-theme')
+    let savedTheme: string | null = null
+    try {
+      savedTheme = localStorage.getItem('mda-theme')
+    } catch {
+      savedTheme = null
+    }
+    const systemPrefersDark =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
     const preferredTheme: 'light' | 'dark' =
       savedTheme === 'dark' || savedTheme === 'light'
         ? savedTheme
-        : window.matchMedia('(prefers-color-scheme: dark)').matches
+        : systemPrefersDark
           ? 'dark'
           : 'light'
 
@@ -84,22 +95,22 @@ export function Navbar() {
     >
       <div className="container">
         <div className="flex h-20 items-center justify-between gap-4 md:h-24">
-          <Link href="#inicio" className="flex shrink-0 items-center gap-2.5">
+          <a href="#inicio" className="flex shrink-0 items-center gap-2.5">
             <span className="text-2xl leading-none">⚖️</span>
             <span className="text-xl font-bold text-secondary transition-colors duration-300 dark:text-white">
               Meu Direito Agora
             </span>
-          </Link>
+          </a>
 
           <ul className="hidden items-center gap-7 xl:flex">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <Link
+                <a
                   href={link.href}
                   className="text-17 font-medium text-secondary transition-colors duration-300 hover:text-primary dark:text-white"
                 >
                   {link.label}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
@@ -125,9 +136,9 @@ export function Navbar() {
               )}
             </button>
 
-            <Link href="#verificador" className="btn btn-1 hover-filled-slide-down hidden overflow-hidden rounded-lg xl:block">
-              <span className="!px-5 !py-2">Verificar direitos</span>
-            </Link>
+            <a href="#verificador" className="btn btn-1 hover-filled-slide-down hidden overflow-hidden rounded-lg xl:block">
+              <span className="!px-5 !py-2">Iniciar triagem</span>
+            </a>
 
             <button
               type="button"
@@ -148,23 +159,23 @@ export function Navbar() {
         <div className="border-t border-slate-200 bg-white p-4 shadow-xl dark:border-dark_border dark:bg-darkmode xl:hidden">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className="rounded-lg px-3 py-3 text-17 font-medium text-secondary transition-colors hover:bg-gray-50 hover:text-primary dark:text-white dark:hover:bg-darklight"
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
             <div className="pt-3">
-              <Link
+              <a
                 href="#verificador"
                 onClick={() => setMenuOpen(false)}
                 className="btn btn-1 hover-filled-slide-down block w-full overflow-hidden rounded-lg text-center"
               >
-                <span>Verificar direitos</span>
-              </Link>
+                <span>Iniciar triagem</span>
+              </a>
             </div>
           </nav>
         </div>
@@ -172,3 +183,4 @@ export function Navbar() {
     </header>
   )
 }
+

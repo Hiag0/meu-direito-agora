@@ -35,3 +35,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# conteúdo local de apoio
+*.mk
+correcoes_conteudo_meu_direito_agora_codex.md
