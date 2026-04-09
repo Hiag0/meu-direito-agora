@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Meu Direito Agora">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b63ce" />
+      <stop offset="100%" stop-color="#22a2ff" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)" />
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2">
+    <path d="M32 12v6" />
+    <path d="M18 20h28" />
+    <path d="M32 20v24" />
+    <path d="M24 44h16" />
+    <path d="M12 26c4 0 7 2 10 6 3-4 6-6 10-6" />
+    <path d="M52 26c-4 0-7 2-10 6-3-4-6-6-10-6" />
+    <path d="M14 27c0 4 3 7 8 7s8-3 8-7" />
+    <path d="M34 27c0 4 3 7 8 7s8-3 8-7" />
+  </g>
+</svg>
