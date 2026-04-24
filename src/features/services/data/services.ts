@@ -17,7 +17,7 @@ export const SERVICES: Service[] = [
       'Orientação sobre requisitos objetivos e documentos para pedido de Benefício de Prestação Continuada, sem garantia de concessão.',
     badge: 'triagem informativa',
     featured: true,
-    externalUrl: 'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+    externalUrl: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-assistencial-a-pessoa-com-deficiencia',
   },
   {
     id: 'incapacidade-temporaria',
@@ -25,7 +25,7 @@ export const SERVICES: Service[] = [
     name: 'Auxílio por Incapacidade Temporária',
     description:
       'Passo a passo para organizar laudos e iniciar solicitação no INSS quando houver incapacidade temporária para o trabalho.',
-    externalUrl: 'https://meu.inss.gov.br/',
+    externalUrl: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-por-incapacidade-temporaria-auxilio-doenca',
   },
   {
     id: 'ouvidoria-saude',

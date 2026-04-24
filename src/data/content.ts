@@ -1,7 +1,8 @@
 ﻿export const siteContent = {
   hero: {
     eyebrow: 'Plataforma informativa e educativa',
-    title: 'Entenda benefícios previdenciários e canais de saúde com clareza',
+    title:
+      'Descubra se você tem direito a benefícios previdenciários e entenda como agir, inclusive quando a falta de atendimento em saúde impede o acesso ao benefício.',
     subtitle:
       'O Meu Direito Agora explica requisitos básicos, documentos e caminhos oficiais para iniciar pedidos e manifestações. A plataforma não substitui análise jurídica individual nem decisão do órgão competente.',
     primaryButton: 'Iniciar triagem informativa',
@@ -28,6 +29,7 @@
   },
 
   officialLinks: {
+    instagram: 'https://www.instagram.com/meu.direito.agora?igsh=MWgzaHd4MTdoejN0&utm_source=qr',
     falaBrHome: 'https://falabr.cgu.gov.br/web/home',
     falaBrGovService:
       'https://www.gov.br/pt-br/servicos/registrar-manifestacao-no-sistema-de-ouvidorias-do-poder-executivo-federal',
@@ -40,6 +42,10 @@
     tocantinsOuvidoriaGeral: 'https://www.to.gov.br/cge/ouvidoria-geral-do-estado/5ucazpoed99m',
     tocantinsOuvidoriaSus: 'https://www.to.gov.br/saude/ouvidoria-do-sus/5ry99whtlmk6',
     bpcService: 'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+    bpcDeficienciaService: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-assistencial-a-pessoa-com-deficiencia',
+    auxilioIncapacidadeTemporariaService:
+      'https://www.gov.br/pt-br/servicos/solicitar-beneficio-por-incapacidade-temporaria-auxilio-doenca',
+    auxilioAcidenteService: 'https://www.gov.br/pt-br/servicos/solicitar-auxilio-acidente',
     crasInfo: 'https://www.gov.br/mds/pt-br/acoes-e-programas/suas/protecao-social-basica/cras',
     salarioMaternidadeService: 'https://www.gov.br/pt-br/servicos/solicitar-salario-maternidade-urbano',
   },
@@ -63,7 +69,7 @@
       ],
       importantInfo:
         'A confirmação depende de análise administrativa e, para pessoa com deficiência, de avaliação médica e social.',
-      actionLink: 'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+      actionLink: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-assistencial-a-pessoa-com-deficiencia',
     },
     {
       id: 'auxilio-incapacidade-temporaria',
@@ -83,7 +89,7 @@
       ],
       importantInfo:
         'Não basta estar doente: o órgão competente avalia incapacidade para o trabalho e requisitos previdenciários.',
-      actionLink: 'https://meu.inss.gov.br/',
+      actionLink: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-por-incapacidade-temporaria-auxilio-doenca',
     },
     {
       id: 'auxilio-acidente',
@@ -103,7 +109,7 @@
       ],
       importantInfo:
         'Pode haver continuidade no trabalho, mas a confirmação do enquadramento depende da análise técnica do INSS.',
-      actionLink: 'https://meu.inss.gov.br/',
+      actionLink: 'https://www.gov.br/pt-br/servicos/solicitar-auxilio-acidente',
     },
     {
       id: 'salario-maternidade',

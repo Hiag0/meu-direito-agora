@@ -69,7 +69,7 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'Seu caso pode se enquadrar para análise inicial, mas a confirmação depende de avaliação médica e social pelo órgão competente.',
           actionLabel: 'Iniciar pedido oficial de BPC',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
         parcial: {
           variant: 'missing_info',
@@ -77,7 +77,7 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'Sem documentação médica mínima e dados cadastrais consistentes, a triagem fica limitada. Reúna os documentos antes de protocolar.',
           actionLabel: 'Ver orientação oficial do BPC',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
         nao: {
           variant: 'not_eligible',
@@ -95,7 +95,7 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'Sem enquadramento cadastral/econômico informado, o fluxo inicial do BPC pode não ser atendido neste momento.',
           actionLabel: 'Regularizar dados e conferir regras',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
         parcial: {
           variant: 'not_eligible',
@@ -103,14 +103,14 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'Sem CadÚnico/critério econômico informado e com documentos incompletos, a triagem inicial não avança com segurança.',
           actionLabel: 'Conferir orientação oficial',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
         nao: {
           variant: 'not_eligible',
           title: 'Requisitos básicos não confirmados na triagem',
           body: 'Pelas respostas informadas, o caso pode não atender aos requisitos básicos para abertura inicial do BPC.',
           actionLabel: 'Conferir critérios no portal oficial',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
       },
       nao_sei: {
@@ -120,7 +120,7 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'Há indícios documentais, mas sem confirmação dos dados cadastrais e econômicos a análise final depende do órgão competente.',
           actionLabel: 'Consultar orientação oficial',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
         parcial: {
           variant: 'missing_info',
@@ -136,7 +136,7 @@ export const FLOWS: Record<SituationType, Flow> = {
           body:
             'A triagem não consegue avançar sem dados cadastrais/econômicos e sem documentação mínima de saúde.',
           actionLabel: 'Entender critérios do BPC',
-          actionUrl: links.bpcService,
+          actionUrl: links.bpcDeficienciaService,
         },
       },
     },
@@ -237,16 +237,16 @@ export const FLOWS: Record<SituationType, Flow> = {
           title: 'Possível enquadramento inicial para análise administrativa',
           body:
             'Você pode ter indicativos para solicitar análise do benefício, desde que documentos médicos e requisitos previdenciários sejam confirmados pelo órgão competente.',
-          actionLabel: 'Solicitar pelo Meu INSS',
-          actionUrl: links.meuInss,
+          actionLabel: 'Acessar serviço oficial de auxílio por incapacidade',
+          actionUrl: links.auxilioIncapacidadeTemporariaService,
         },
         parcial: {
           variant: 'missing_info',
           title: 'Faltam documentos ou dados previdenciários mínimos',
           body:
             'A triagem indica necessidade de complementar laudos e/ou dados de vinculação previdenciária antes de seguir com mais segurança.',
-          actionLabel: 'Acessar Meu INSS para conferir exigências',
-          actionUrl: links.meuInss,
+          actionLabel: 'Conferir exigências no serviço oficial',
+          actionUrl: links.auxilioIncapacidadeTemporariaService,
         },
         nao: {
           variant: 'not_eligible',
@@ -288,8 +288,8 @@ export const FLOWS: Record<SituationType, Flow> = {
           title: 'Caso depende de avaliação do órgão competente',
           body:
             'Com dúvida sobre o quadro incapacitante, a conclusão depende de avaliação técnica e administrativa do órgão competente.',
-          actionLabel: 'Iniciar orientação no Meu INSS',
-          actionUrl: links.meuInss,
+          actionLabel: 'Acessar orientação oficial do benefício',
+          actionUrl: links.auxilioIncapacidadeTemporariaService,
         },
         parcial: {
           variant: 'missing_info',
@@ -335,16 +335,16 @@ export const FLOWS: Record<SituationType, Flow> = {
           title: 'Caso depende de avaliação técnica do INSS',
           body:
             'Pode haver indicativo de enquadramento inicial, mas a confirmação depende da análise da sequela, da redução da capacidade laboral e dos demais requisitos previdenciários pelo INSS.',
-          actionLabel: 'Acessar Meu INSS',
-          actionUrl: links.meuInss,
+          actionLabel: 'Acessar serviço oficial de auxílio-acidente',
+          actionUrl: links.auxilioAcidenteService,
         },
         parcial: {
           variant: 'missing_info',
           title: 'Faltam documentos ou informações mínimas',
           body:
             'A triagem indica necessidade de organizar laudos e comprovações da redução da capacidade para o trabalho habitual.',
-          actionLabel: 'Ver canais de atendimento do INSS',
-          actionUrl: links.inssOuvidoria,
+          actionLabel: 'Conferir exigências no serviço oficial',
+          actionUrl: links.auxilioAcidenteService,
         },
         nao: {
           variant: 'not_eligible',
@@ -384,8 +384,8 @@ export const FLOWS: Record<SituationType, Flow> = {
           title: 'Caso depende de avaliação do órgão competente',
           body:
             'Com dúvida sobre a situação de acidente/sequela, a conclusão depende de avaliação técnica do INSS e documentação apresentada.',
-          actionLabel: 'Iniciar orientação no Meu INSS',
-          actionUrl: links.meuInss,
+          actionLabel: 'Acessar orientação oficial do auxílio-acidente',
+          actionUrl: links.auxilioAcidenteService,
         },
         parcial: {
           variant: 'missing_info',

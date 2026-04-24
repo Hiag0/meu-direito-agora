@@ -1,6 +1,7 @@
 ﻿'use client'
 
 import { useEffect, useState } from 'react'
+import { siteContent } from '@/data/content'
 
 const navLinks = [
   { label: 'Início', href: '#inicio' },
@@ -85,6 +86,8 @@ export function Navbar() {
     applyTheme(next)
   }
 
+  const instagramUrl = siteContent.officialLinks.instagram
+
   return (
     <header
       className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${
@@ -116,6 +119,26 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center space-x-3">
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-pink-300 bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 text-white shadow-md transition-all duration-300 hover:scale-[1.06] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 dark:border-pink-500/60"
+              aria-label="Acessar Instagram Meu Direito Agora"
+              title="Instagram Meu Direito Agora"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                className="animate-[pulse_1.6s_ease-in-out_infinite] transition-transform duration-300 group-hover:scale-125"
+              >
+                <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.9 1.85a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" />
+              </svg>
+            </a>
+
             <button
               type="button"
               aria-label="Alternar tema claro/escuro"
@@ -168,6 +191,19 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
+            <div className="pt-3">
+              <a
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-lg border border-pink-300 bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 px-4 py-3 text-center text-16 font-semibold text-white transition-opacity hover:opacity-95"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.9 1.85a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" />
+                </svg>
+                <span>Instagram</span>
+              </a>
+            </div>
             <div className="pt-3">
               <a
                 href="#verificador"

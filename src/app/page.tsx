@@ -1,4 +1,5 @@
-﻿import { Hero } from '@/features/hero/components/hero'
+import { Hero } from '@/features/hero/components/hero'
+import { InstagramHighlight } from '@/features/instagram/components/instagram-highlight'
 import { InstitutionalNotice } from '@/features/institutional/components/institutional-notice'
 import { ServicesGrid } from '@/features/services/components/services-grid'
 import { HealthComplaints } from '@/features/health/components/health-complaints'
@@ -9,6 +10,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <InstagramHighlight />
       <InstitutionalNotice />
       <ServicesGrid />
       <HealthComplaints />
