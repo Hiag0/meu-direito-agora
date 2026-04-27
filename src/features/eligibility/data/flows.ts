@@ -373,7 +373,7 @@ export const FLOWS: Record<SituationType, Flow> = {
         nao: {
           variant: 'not_eligible',
           title: 'Não há indício básico de acidente com sequela permanente',
-          body: 'Pelas respostas, esta trilha específica pode não ser aplicável ao seu caso neste momento.',
+          body: 'Pelas respostas, não há viabilidade inicial para o auxílio-acidente nesta trilha.',
           actionLabel: 'Acessar Meu INSS',
           actionUrl: links.meuInss,
         },
@@ -468,7 +468,7 @@ export const FLOWS: Record<SituationType, Flow> = {
         nao: {
           variant: 'not_eligible',
           title: 'Evento informado não corresponde a esta trilha',
-          body: 'Pelas respostas, esta trilha específica pode não ser aplicável ao seu caso.',
+          body: 'Pelas respostas, não há viabilidade inicial para o salário-maternidade nesta trilha.',
           actionLabel: 'Acessar Meu INSS',
           actionUrl: links.meuInss,
         },
@@ -545,6 +545,4 @@ export const FLOWS: Record<SituationType, Flow> = {
     },
   },
 }
-
-
 

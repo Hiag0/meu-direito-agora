@@ -46,7 +46,47 @@ export function useEligibilityChecker() {
   }, [])
 
   const selectAnswer2 = useCallback((answer: string) => {
-    setState((prev) => ({ ...prev, step: 3, answer2: answer }))
+    setState((prev) => {
+      if (prev.situation === 'acidente' && answer === 'nao') {
+        const immediateResult = FLOWS.acidente.results.nao?.nao
+
+        return {
+          ...prev,
+          step: 'result',
+          answer2: answer,
+          result:
+            immediateResult ??
+            ({
+              variant: 'not_eligible',
+              title: 'Sem viabilidade inicial para auxílio-acidente',
+              body: 'Sem acidente com sequela permanente, não há viabilidade inicial para este benefício nesta trilha.',
+              actionLabel: 'Acessar Meu INSS',
+              actionUrl: siteContent.officialLinks.meuInss,
+            } satisfies EligibilityResult),
+        }
+      }
+
+      if (prev.situation === 'maternidade' && answer === 'nao') {
+        const immediateResult = FLOWS.maternidade.results.nao?.nao
+
+        return {
+          ...prev,
+          step: 'result',
+          answer2: answer,
+          result:
+            immediateResult ??
+            ({
+              variant: 'not_eligible',
+              title: 'Sem viabilidade inicial para salário-maternidade',
+              body: 'Sem evento compatível, não há viabilidade inicial para este benefício nesta trilha.',
+              actionLabel: 'Acessar Meu INSS',
+              actionUrl: siteContent.officialLinks.meuInss,
+            } satisfies EligibilityResult),
+        }
+      }
+
+      return { ...prev, step: 3, answer2: answer }
+    })
   }, [])
 
   const selectAnswer3 = useCallback(

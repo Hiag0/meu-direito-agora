@@ -22,7 +22,7 @@ export const SERVICES: Service[] = [
   {
     id: 'incapacidade-temporaria',
     icon: '2',
-    name: 'Auxílio por Incapacidade Temporária',
+    name: 'Auxílio por Incapacidade Temporária (Auxílio-Doença)',
     description:
       'Passo a passo para organizar laudos e iniciar solicitação no INSS quando houver incapacidade temporária para o trabalho.',
     externalUrl: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-por-incapacidade-temporaria-auxilio-doenca',

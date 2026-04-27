@@ -1,7 +1,8 @@
 ﻿import { siteContent } from '@/data/content'
 
 export function HealthComplaints() {
-  const { title, subtitle, intro, channels, manifestationTypes, regionalChannels } = siteContent.healthComplaints
+  const { title, subtitle, intro, channels, manifestationTypes, regionalChannels, ouvidoriasByState } =
+    siteContent.healthComplaints
 
   return (
     <section id="saude" className="bg-slate-100 dark:bg-darklight/70">
@@ -54,7 +55,7 @@ export function HealthComplaints() {
           ))}
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           <article className="rounded-14 border border-PeriwinkleBorder bg-white p-7 dark:border-dark_border dark:bg-darkmode">
             <h3 className="text-22 font-bold text-secondary dark:text-white">Tipos de manifestação</h3>
             <ul className="mt-4 space-y-3">
@@ -83,6 +84,19 @@ export function HealthComplaints() {
                 </li>
               ))}
             </ul>
+          </article>
+
+          <article className="rounded-14 border border-PeriwinkleBorder bg-white p-7 dark:border-dark_border dark:bg-darkmode">
+            <h3 className="text-22 font-bold text-secondary dark:text-white">{ouvidoriasByState.title}</h3>
+            <p className="mt-4 text-16 text-SlateBlueText dark:text-darktext">{ouvidoriasByState.description}</p>
+            <a
+              href={ouvidoriasByState.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 text-16 font-semibold text-primary transition-colors hover:text-RegalBlue"
+            >
+              {ouvidoriasByState.actionLabel} ↗
+            </a>
           </article>
         </div>
       </div>

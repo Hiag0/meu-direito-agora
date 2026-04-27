@@ -41,7 +41,7 @@
       'https://www.gov.br/pt-br/servicos/cadastrar-manifestacao-na-ouvidoria-geral-do-sus-ouvsus',
     tocantinsOuvidoriaGeral: 'https://www.to.gov.br/cge/ouvidoria-geral-do-estado/5ucazpoed99m',
     tocantinsOuvidoriaSus: 'https://www.to.gov.br/saude/ouvidoria-do-sus/5ry99whtlmk6',
-    bpcService: 'https://www.gov.br/pt-br/servicos/solicitar-o-beneficio-de-prestacao-continuada-bpc',
+    bpcService: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-assistencial-a-pessoa-com-deficiencia',
     bpcDeficienciaService: 'https://www.gov.br/pt-br/servicos/solicitar-beneficio-assistencial-a-pessoa-com-deficiencia',
     auxilioIncapacidadeTemporariaService:
       'https://www.gov.br/pt-br/servicos/solicitar-beneficio-por-incapacidade-temporaria-auxilio-doenca',
@@ -73,7 +73,7 @@
     },
     {
       id: 'auxilio-incapacidade-temporaria',
-      title: 'Auxílio por Incapacidade Temporária',
+      title: 'Auxílio por Incapacidade Temporária (Auxílio-Doença)',
       description:
         'Benefício para quem fica temporariamente incapaz para o trabalho por doença ou acidente, conforme regras previdenciárias.',
       requirements: [
@@ -117,18 +117,18 @@
       description:
         'Benefício para afastamento por parto, adoção, guarda judicial, natimorto ou aborto não criminoso, conforme regras aplicáveis.',
       requirements: [
-        'Evento compatível com as hipóteses legais do benefício',
-        'Qualidade de segurado na hipótese aplicável',
-        'Documentos do evento e de vínculo/contribuição conforme categoria',
+        'Nascimento de filho, adoção, guarda judicial para fins de adoção, aborto não criminoso ou natimorto',
+        'Qualidade de segurado do INSS no momento do fato gerador',
+        'Documentação pessoal e da criança (certidão de nascimento), médica e/ou judicial, conforme o caso',
       ],
       steps: [
-        'Reúna certidão, termo judicial ou documentos médicos do evento',
-        'Confirme documentos pessoais e de vínculo/contribuição',
-        'Acesse o Meu INSS ou canal oficial correspondente e protocole o pedido',
-        'Acompanhe o andamento e responda exigências pelo canal oficial',
+        'Organize certidão de nascimento, atestados médicos ou documentos judiciais (adoção/guarda), além de documentos pessoais',
+        'Separe comprovantes de vínculo ou contribuição (CTPS, carnês, holerites ou documentos rurais, se for o caso)',
+        'Acesse o Meu INSS e localize o serviço de salário-maternidade',
+        'Formalize o pedido, acompanhe o protocolo e cumpra eventuais exigências do INSS',
       ],
       importantInfo:
-        'A duração e os requisitos variam conforme o tipo de evento e a categoria da pessoa requerente.',
+        'A duração do benefício é, em regra, de 120 dias, podendo ser de 14 dias em caso de aborto não criminoso. O benefício também pode ser concedido ao homem em casos de adoção, guarda judicial ou falecimento da mãe segurada, desde que preenchidos os requisitos legais.',
       actionLink: 'https://www.gov.br/pt-br/servicos/solicitar-salario-maternidade-urbano',
     },
   ],
@@ -217,7 +217,7 @@
     'Não existe fórmula que garanta aprovação. Informações completas, coerentes e verificáveis ajudam o órgão a analisar o pedido com mais clareza.',
 
   healthComplaints: {
-    title: 'Problemas no SUS? Use canais oficiais de ouvidoria',
+    title: 'Problemas no SUS ou no INSS? Use esses canais oficiais de ouvidoria',
     subtitle:
       'Descreva o fato com objetividade, informe quando e onde aconteceu e acompanhe tudo pelo protocolo.',
     intro:
@@ -274,6 +274,12 @@
         link: 'https://www.to.gov.br/saude/ouvidoria-do-sus/5ry99whtlmk6',
       },
     ],
+    ouvidoriasByState: {
+      title: 'Ouvidorias do SUS por Estado',
+      description: 'Consulte as ouvidorias do SUS específicas de cada estado da federação.',
+      actionLabel: 'Acessar ouvidorias por estado',
+      link: 'https://www.gov.br/saude/pt-br/canais-de-atendimento/ouvsus/sistema-nacional-de-ouvidorias-do-sus/estados-da-federacao-com-as-ouvidorias-do-sus',
+    },
   },
 } as const
 

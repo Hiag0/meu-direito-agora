@@ -199,17 +199,19 @@ function ResultStep({ result, situation, onReset, nextSteps, deadlines }: Result
         <p className="mt-4 text-15 text-SlateBlueText dark:text-darktext">{siteContent.documents.warning}</p>
       </div>
 
-      <div className="rounded-14 border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950/20">
-        <h3 className="mb-3 text-18 font-semibold text-amber-800 dark:text-amber-300">Prazos importantes</h3>
-        <ul className="space-y-2 text-16 text-amber-700 dark:text-amber-200">
-          {deadlines.map((deadline) => (
-            <li key={deadline} className="flex items-start gap-2">
-              <span className="mt-1 inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500" />
-              <span>{deadline}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {situation !== 'sus' && (
+        <div className="rounded-14 border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950/20">
+          <h3 className="mb-3 text-18 font-semibold text-amber-800 dark:text-amber-300">Prazos importantes</h3>
+          <ul className="space-y-2 text-16 text-amber-700 dark:text-amber-200">
+            {deadlines.map((deadline) => (
+              <li key={deadline} className="flex items-start gap-2">
+                <span className="mt-1 inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500" />
+                <span>{deadline}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="rounded-14 border border-blue-200 bg-blue-50 p-4 text-15 text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300">
         <p className="font-semibold">Aviso importante</p>
