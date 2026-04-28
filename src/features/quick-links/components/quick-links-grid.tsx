@@ -41,7 +41,7 @@ export function QuickLinksGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="flex flex-wrap justify-center gap-6">
           {QUICK_LINKS.map((link, index) => (
             <a
               key={link.id}
@@ -51,7 +51,7 @@ export function QuickLinksGrid() {
               data-aos="fade-up"
               data-aos-delay={String(200 + index * 100)}
               data-aos-duration="1000"
-              className="group block rounded-14 bg-white p-8 shadow-round-box transition-all duration-300 hover:-translate-y-2 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:bg-darklight dark:shadow-darkmd"
+              className="group block w-full rounded-14 bg-white p-8 shadow-round-box transition-all duration-300 hover:-translate-y-2 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] dark:bg-darklight dark:shadow-darkmd"
             >
               <span className={`mb-5 inline-flex h-5 w-5 rounded-full ring-4 ${DOT_BG[link.color]} ${DOT_RING[link.color]}`} />
 

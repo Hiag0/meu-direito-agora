@@ -201,13 +201,13 @@
     'Prazo para recurso administrativo, quando houver decisão desfavorável',
     'Prazo para cumprir exigências do órgão competente',
     'Prazo para comparecimento em perícias, avaliações e atendimentos agendados',
-    'Necessidade de manter o CadÚnico atualizado periodicamente',
+    'Necessidade de manter o CadÚnico atualizado periodicamente se isso for necessário no seu benefício.',
   ],
 
   commonErrors: [
     'Documento ilegível',
     'Arquivo incompleto',
-    'Dados divergentes do cadastro oficial',
+    'Dados incorretos no Cadastro Único',
     'Autodeclaração preenchida com erro',
     'Falta de laudo ou comprovante essencial',
     'Ausência de protocolo ou perda de prazo',
