@@ -2,13 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-base: #f4f8fc;
+  --bg-layer-1: rgba(47, 115, 242, 0.1);
+  --bg-layer-2: rgba(70, 196, 255, 0.08);
+  --bg-layer-3: rgba(16, 44, 70, 0.06);
+}
+
 html {
   scroll-behavior: smooth;
   @apply overflow-x-hidden;
 }
 
 body {
-  @apply overflow-x-hidden dark:bg-darkmode;
+  font-family: var(--font-body), sans-serif;
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(circle at 8% 0%, var(--bg-layer-1), transparent 48%),
+    radial-gradient(circle at 90% 16%, var(--bg-layer-2), transparent 45%),
+    radial-gradient(circle at 50% 100%, var(--bg-layer-3), transparent 62%);
+  background-attachment: fixed;
+  @apply overflow-x-hidden text-secondary antialiased dark:bg-darkmode;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(47, 115, 242, 0.18), transparent 42%),
+    radial-gradient(circle at 85% 10%, rgba(70, 196, 255, 0.12), transparent 35%),
+    radial-gradient(circle at 50% 100%, rgba(7, 23, 42, 0.9), transparent 60%);
 }
 
 * {
@@ -24,73 +45,65 @@ html:not(.aos-ready) [data-aos] {
 
 @layer components {
   section {
-    @apply scroll-mt-24 py-10 md:scroll-mt-28 md:py-20;
+    @apply scroll-mt-28 py-12 md:scroll-mt-32 md:py-20;
   }
 
   input::placeholder,
   textarea::placeholder {
-    @apply text-SlateBlueText text-17 font-normal;
+    @apply text-17 font-normal text-SlateBlueText;
   }
 
   h1 {
-    @apply md:text-53 text-40 font-bold text-MidnightNavyText dark:text-white;
+    font-family: var(--font-heading), sans-serif;
+    letter-spacing: -0.02em;
+    @apply text-40 font-bold text-MidnightNavyText dark:text-white md:text-53;
   }
 
   h2 {
-    @apply md:text-40 text-28 font-bold text-MidnightNavyText dark:text-white;
+    font-family: var(--font-heading), sans-serif;
+    letter-spacing: -0.018em;
+    @apply text-28 font-bold text-MidnightNavyText dark:text-white md:text-40;
   }
 
-  .btn_primary {
-    @apply bg-primary text-white py-3 px-8 rounded-lg cursor-pointer transition-all duration-[0.4s] inline-block;
+  h3 {
+    font-family: var(--font-heading), sans-serif;
+    letter-spacing: -0.01em;
   }
 
   .container {
-    @apply w-full block max-w-1200 m-auto py-0 px-7;
+    @apply m-auto block w-full max-w-1200 px-7 py-0;
   }
 
-  /* Primary Button with fill-slide animation */
   .btn {
-    @apply relative inline-block bg-transparent border-none cursor-pointer before:absolute before:content-[''] after:absolute after:content-[''];
-  }
-  .btn span {
-    @apply relative inline-block text-17 font-medium top-0 left-0 w-full py-4 px-7 transition-all duration-[0.4s];
-  }
-  .btn-1::before {
-    @apply bg-primary transition-all duration-[0.4s];
-  }
-  .btn-1 span {
-    @apply text-white border border-solid border-primary rounded-lg transition-all duration-[0.4s];
-  }
-  .btn-1 span:hover {
-    @apply text-primary transition-all duration-[0.4s];
-  }
-  .btn.hover-filled-slide-down::before {
-    @apply bottom-0 left-0 right-0 h-full w-full;
-  }
-  .btn.hover-filled-slide-down:hover::before {
-    @apply h-0;
+    @apply relative inline-flex overflow-hidden rounded-xl border border-transparent shadow-md transition-all duration-300 ease-out-expo;
   }
 
-  /* Outline Button with fill-slide animation */
+  .btn span {
+    @apply relative inline-flex w-full items-center justify-center px-7 py-3.5 text-17 font-semibold;
+  }
+
+  .btn-1 {
+    @apply bg-gradient-to-r from-primary to-RegalBlue text-white hover:-translate-y-0.5 hover:shadow-xl;
+  }
+
+  .btn-1 span {
+    @apply text-white;
+  }
+
   .btn_outline {
-    @apply relative inline-block bg-transparent border-none cursor-pointer before:absolute before:content-[''] after:absolute after:content-[''];
+    @apply relative inline-flex overflow-hidden rounded-xl border border-primary/45 bg-white/90 shadow-sm backdrop-blur transition-all duration-300 ease-out-expo dark:bg-darkmode/70;
   }
+
   .btn_outline span {
-    @apply relative inline-block text-17 font-medium top-0 left-0 w-full py-4 px-7 transition-all duration-[0.4s];
+    @apply inline-flex w-full items-center justify-center px-7 py-3.5 text-17 font-semibold text-primary;
   }
-  .btn-2::before {
-    @apply bg-primary transition-all duration-[0.4s] rounded-lg;
+
+  .btn_outline:hover {
+    @apply -translate-y-0.5 border-primary bg-primary/10 shadow-lg;
   }
-  .btn-2 span {
-    @apply text-primary border border-solid border-primary rounded-lg transition-all duration-[0.4s];
-  }
-  .btn-2 span:hover {
-    @apply text-white transition-all duration-[0.4s];
-  }
+
+  .btn.hover-filled-slide-down::before,
   .btn_outline.hover-outline-slide-down::before {
-    @apply top-0 left-0 right-0 h-0 w-full;
-  }
-  .btn_outline.hover-outline-slide-down:hover::before {
-    @apply h-full;
+    content: none;
   }
 }

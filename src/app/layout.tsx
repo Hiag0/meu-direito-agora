@@ -1,10 +1,18 @@
-﻿import { DM_Sans } from 'next/font/google'
+import { Manrope, Sora } from 'next/font/google'
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
 import './globals.css'
 
-const dmSans = DM_Sans({ subsets: ['latin'] })
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-body',
+})
+
+const sora = Sora({
+  subsets: ['latin'],
+  variable: '--font-heading',
+})
 
 export const metadata: Metadata = {
   title: 'Meu Direito Agora - Informação e orientação básica',
@@ -16,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body className={dmSans.className}>
+      <body className={`${manrope.variable} ${sora.variable}`}>
         <div className="flex min-h-screen flex-col">
           <Navbar />
           <main className="flex-1 pt-20 md:pt-24">{children}</main>
@@ -26,4 +34,3 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   )
 }
-

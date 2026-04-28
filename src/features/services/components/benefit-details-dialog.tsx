@@ -32,13 +32,13 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/60 p-4" onClick={() => onOpenChange(false)}>
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/55 p-4 backdrop-blur-sm" onClick={() => onOpenChange(false)}>
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${benefit.id}-title`}
         aria-describedby={`${benefit.id}-description`}
-        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-22 bg-white p-6 shadow-2xl dark:bg-darkmode md:p-8"
+        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-22 border border-white/70 bg-white/95 p-6 shadow-2xl backdrop-blur dark:border-dark_border dark:bg-darkmode/95 md:p-8"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-6 flex items-start justify-between gap-4 border-b border-PeriwinkleBorder pb-4 dark:border-dark_border">
@@ -61,7 +61,7 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
           </button>
         </div>
 
-        <p id={`${benefit.id}-description`} className="mb-6 rounded-14 bg-IcyBreeze p-4 text-16 text-SlateBlueText dark:bg-darklight dark:text-darktext">
+        <p id={`${benefit.id}-description`} className="mb-6 rounded-14 bg-IcyBreeze/80 p-4 text-16 text-SlateBlueText dark:bg-darklight dark:text-darktext">
           Use esta orientação para organizar documentos, preencher com mais clareza e seguir para o canal oficial indicado.
         </p>
 
@@ -84,7 +84,7 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
               {benefit.steps.map((step, index) => (
                 <li
                   key={`${benefit.id}-step-${index}`}
-                  className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 text-16 text-SlateBlueText dark:bg-darklight dark:text-darktext"
+                className="flex items-start gap-3 rounded-xl bg-slate-50/85 p-3 text-16 text-SlateBlueText dark:bg-darklight dark:text-darktext"
                 >
                   <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-14 font-semibold text-primary">
                     {index + 1}
@@ -103,13 +103,13 @@ export function BenefitDetailsDialog({ benefit, open, onOpenChange }: BenefitDet
         </div>
 
         <div className="mt-7 flex flex-wrap items-center gap-3">
-          <a href={benefit.actionLink} target="_blank" rel="noopener noreferrer" className="btn btn-1 hover-filled-slide-down overflow-hidden rounded-lg">
+          <a href={benefit.actionLink} target="_blank" rel="noopener noreferrer" className="btn btn-1 hover-filled-slide-down">
             <span>Acessar canal oficial ↗</span>
           </a>
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="rounded-lg border border-primary px-5 py-3 text-17 font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+            className="rounded-xl border border-primary/45 bg-white px-5 py-3 text-17 font-semibold text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white"
           >
             Fechar
           </button>

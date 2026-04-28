@@ -92,15 +92,17 @@ export function Navbar() {
     <header
       className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${
         sticky
-          ? 'border-slate-200/90 bg-white/95 shadow-lg backdrop-blur dark:border-dark_border dark:bg-secondary/95 dark:shadow-darkmd'
-          : 'border-slate-200/70 bg-white/90 backdrop-blur dark:border-dark_border dark:bg-secondary/90'
+          ? 'border-slate-200/85 bg-white/88 shadow-[0_14px_35px_-24px_rgba(16,44,70,0.52)] backdrop-blur-xl dark:border-dark_border dark:bg-secondary/88 dark:shadow-darkmd'
+          : 'border-slate-200/60 bg-white/72 backdrop-blur-xl dark:border-dark_border dark:bg-secondary/72'
       }`}
     >
       <div className="container">
         <div className="flex h-20 items-center justify-between gap-4 md:h-24">
-          <a href="#inicio" className="flex shrink-0 items-center gap-2.5">
-            <span className="text-2xl leading-none">⚖️</span>
-            <span className="text-xl font-bold text-secondary transition-colors duration-300 dark:text-white">
+          <a href="#inicio" className="flex shrink-0 items-center gap-3">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-RegalBlue text-lg text-white shadow-md">
+              ⚖
+            </span>
+            <span className="text-xl font-semibold tracking-tight text-secondary transition-colors duration-300 dark:text-white">
               Meu Direito Agora
             </span>
           </a>
@@ -110,7 +112,7 @@ export function Navbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="text-17 font-medium text-secondary transition-colors duration-300 hover:text-primary dark:text-white"
+                  className="text-17 font-semibold text-secondary/90 transition-colors duration-300 hover:text-primary dark:text-white/90 dark:hover:text-ElectricAqua"
                 >
                   {link.label}
                 </a>
@@ -144,7 +146,7 @@ export function Navbar() {
               aria-label="Alternar tema claro/escuro"
               aria-pressed={isDarkMode}
               onClick={toggleTheme}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-secondary transition-all duration-300 hover:border-primary hover:text-primary dark:border-dark_border dark:text-white"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/90 bg-white/85 text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary dark:border-dark_border dark:bg-darklight dark:text-white"
             >
               {!mounted ? (
                 <span className="h-5 w-5" />
@@ -159,14 +161,17 @@ export function Navbar() {
               )}
             </button>
 
-            <a href="#verificador" className="btn btn-1 hover-filled-slide-down hidden overflow-hidden rounded-lg xl:block">
-              <span className="!px-5 !py-2">Iniciar triagem</span>
+            <a
+              href="#verificador"
+              className="hidden rounded-xl bg-gradient-to-r from-primary to-RegalBlue px-5 py-2.5 text-16 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg xl:block"
+            >
+              Iniciar triagem
             </a>
 
             <button
               type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className="block rounded-lg p-2 xl:hidden"
+              className="block rounded-lg border border-slate-200/90 bg-white/85 p-2 dark:border-dark_border dark:bg-darklight xl:hidden"
               aria-label="Abrir menu"
               aria-expanded={menuOpen}
             >
@@ -179,7 +184,7 @@ export function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="border-t border-slate-200 bg-white p-4 shadow-xl dark:border-dark_border dark:bg-darkmode xl:hidden">
+        <div className="border-t border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl dark:border-dark_border dark:bg-darkmode/95 xl:hidden">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <a
@@ -208,9 +213,9 @@ export function Navbar() {
               <a
                 href="#verificador"
                 onClick={() => setMenuOpen(false)}
-                className="btn btn-1 hover-filled-slide-down block w-full overflow-hidden rounded-lg text-center"
+                className="block w-full rounded-xl bg-gradient-to-r from-primary to-RegalBlue px-4 py-3 text-center text-16 font-semibold text-white shadow-md transition-all duration-300 hover:shadow-lg"
               >
-                <span>Iniciar triagem</span>
+                Iniciar triagem
               </a>
             </div>
           </nav>

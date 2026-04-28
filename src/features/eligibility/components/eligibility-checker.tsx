@@ -10,14 +10,15 @@ export function EligibilityChecker() {
   const checkerContent = siteContent.checker
 
   return (
-    <section id="verificador" className="bg-IcyBreeze dark:bg-darklight">
+    <section id="verificador" className="relative bg-[#eaf4ff] dark:bg-darklight">
+      <div className="pointer-events-none absolute -right-16 top-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
       <div className="container">
         <div className="pb-8 text-center md:pb-14">
           <p
             data-aos="fade-up"
             data-aos-delay="200"
             data-aos-duration="1000"
-            className="relative z-0 inline-block text-lg font-bold text-primary before:absolute before:bottom-0 before:-z-10 before:h-2 before:w-full before:bg-primary/20 before:content-['']"
+            className="relative z-0 inline-block rounded-full border border-primary/20 bg-white/80 px-4 py-1 text-15 font-semibold text-primary shadow-sm"
           >
             Verificador de elegibilidade
           </p>
@@ -28,7 +29,7 @@ export function EligibilityChecker() {
             data-aos="fade-up"
             data-aos-delay="400"
             data-aos-duration="1000"
-            className="mx-auto max-w-920 pt-4 text-lg font-normal text-SlateBlueText dark:text-darktext"
+            className="mx-auto max-w-920 pt-4 text-lg font-medium text-SlateBlueText dark:text-darktext"
           >
             {checkerContent.sectionSubtitle}
           </p>
@@ -38,13 +39,13 @@ export function EligibilityChecker() {
           data-aos="fade-up"
           data-aos-delay="500"
           data-aos-duration="1000"
-          className="mx-auto mb-5 max-w-632 rounded-14 border border-blue-200 bg-blue-50 p-4 text-15 text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300"
+          className="mx-auto mb-5 max-w-632 rounded-14 border border-blue-200/70 bg-white/85 p-4 text-15 text-blue-800 shadow-sm backdrop-blur dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300"
         >
           {siteContent.disclaimers.short}
         </div>
 
         <div data-aos="fade-up" data-aos-delay="520" data-aos-duration="1000" className="mx-auto max-w-632">
-          <div className="rounded-22 bg-white p-8 shadow-darkmd dark:bg-darkmode md:p-10">
+          <div className="rounded-22 border border-white/80 bg-white/90 p-8 shadow-darkmd backdrop-blur dark:border-dark_border dark:bg-darkmode/95 md:p-10">
             <ProgressBar percent={progressPercent} />
 
             <p className="mb-6 text-15 text-SlateBlueText">{step === 'result' ? 'Resultado' : `Passo ${step} de 3`}</p>
@@ -71,7 +72,7 @@ export function EligibilityChecker() {
 
 function ProgressBar({ percent }: { percent: number }) {
   return (
-    <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-PaleSkyBlu dark:bg-dark_border">
+    <div className="mb-5 h-2 w-full overflow-hidden rounded-full bg-PaleSkyBlu dark:bg-dark_border">
       <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out" style={{ width: `${percent}%` }} />
     </div>
   )
@@ -95,10 +96,10 @@ function QuestionStep({ questionText, options, onSelect }: QuestionStepProps) {
             onClick={() => onSelect(opt.value)}
             className={cn(
               'flex items-center gap-4 rounded-14 border border-PeriwinkleBorder px-5 py-4 text-left',
-              'bg-IcyBreeze text-17 font-medium text-secondary transition-all duration-300',
-              'hover:border-primary hover:bg-primary/5 hover:shadow-round-box',
+              'bg-white text-17 font-medium text-secondary shadow-sm transition-all duration-300 dark:bg-darklight/80',
+              'hover:-translate-y-0.5 hover:border-primary hover:bg-primary/5 hover:shadow-round-box',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-              'active:scale-[0.99] dark:border-dark_border dark:bg-darklight dark:text-white',
+              'active:scale-[0.99] dark:border-dark_border dark:text-white',
             )}
           >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-semibold shadow-round-box dark:bg-darkmode">
@@ -166,7 +167,7 @@ function ResultStep({ result, situation, onReset, nextSteps, deadlines }: Result
         )}
       </div>
 
-      <div className="rounded-14 border border-PeriwinkleBorder bg-slate-50 p-5 dark:border-dark_border dark:bg-darklight">
+      <div className="rounded-14 border border-PeriwinkleBorder bg-white/85 p-5 shadow-sm dark:border-dark_border dark:bg-darklight">
         <h3 className="mb-3 text-18 font-semibold text-secondary dark:text-white">Proximo passo sugerido</h3>
         <ol className="space-y-2 text-16 text-SlateBlueText dark:text-darktext">
           {nextSteps.map((step, index) => (
@@ -180,7 +181,7 @@ function ResultStep({ result, situation, onReset, nextSteps, deadlines }: Result
         </ol>
       </div>
 
-      <div className="rounded-14 border border-PeriwinkleBorder p-5 dark:border-dark_border">
+      <div className="rounded-14 border border-PeriwinkleBorder bg-white/80 p-5 shadow-sm dark:border-dark_border dark:bg-darkmode/90">
         <h3 className="mb-3 text-18 font-semibold text-secondary dark:text-white">Checklist de documentos</h3>
         <ul className="space-y-2 text-16 text-SlateBlueText dark:text-darktext">
           {commonDocs.map((doc) => (
@@ -222,7 +223,7 @@ function ResultStep({ result, situation, onReset, nextSteps, deadlines }: Result
         <button
           type="button"
           onClick={onReset}
-          className="rounded-lg border border-primary px-6 py-3 text-17 font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+          className="rounded-xl border border-primary/45 bg-white px-6 py-3 text-17 font-semibold text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white"
         >
           Recomeçar
         </button>

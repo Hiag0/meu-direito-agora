@@ -4,13 +4,13 @@ export function InstagramHighlight() {
   const instagramUrl = siteContent.officialLinks.instagram
 
   return (
-    <section id="instagram" className="bg-white dark:bg-darkmode">
+    <section id="instagram" className="dark:bg-darkmode">
       <div className="container">
         <article
           data-aos="fade-up"
           data-aos-delay="180"
           data-aos-duration="900"
-          className="group relative overflow-hidden rounded-22 border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-dark_border dark:from-secondary dark:via-darklight dark:to-darkmode md:p-10"
+          className="group relative overflow-hidden rounded-22 border border-white/80 bg-gradient-to-br from-white/95 via-white to-[#eef6ff] p-7 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-dark_border dark:from-secondary dark:via-darklight dark:to-darkmode md:p-10"
         >
           <div className="pointer-events-none absolute -left-10 -top-14 h-40 w-40 rounded-full bg-pink-500/20 blur-3xl transition-transform duration-500 group-hover:scale-110" />
           <div className="pointer-events-none absolute -bottom-16 -right-8 h-44 w-44 rounded-full bg-blue-500/20 blur-3xl transition-transform duration-500 group-hover:scale-110" />

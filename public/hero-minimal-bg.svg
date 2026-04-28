@@ -1,0 +1,28 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lineFade" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F73F2" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#46C4FF" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="transparent"/>
+
+  <g opacity="0.6">
+    <circle cx="1210" cy="210" r="165" stroke="url(#lineFade)" stroke-width="1.4"/>
+    <circle cx="1210" cy="210" r="210" stroke="url(#lineFade)" stroke-width="1"/>
+    <circle cx="1210" cy="210" r="265" stroke="url(#lineFade)" stroke-width="0.8"/>
+  </g>
+
+  <g opacity="0.45">
+    <path d="M0 670C280 610 420 560 620 470C820 380 1000 340 1600 305" stroke="url(#lineFade)" stroke-width="1.1"/>
+    <path d="M0 730C260 690 430 640 650 550C900 445 1080 405 1600 390" stroke="url(#lineFade)" stroke-width="0.9"/>
+  </g>
+
+  <g opacity="0.35">
+    <circle cx="290" cy="210" r="5" fill="#2F73F2"/>
+    <circle cx="370" cy="250" r="3.5" fill="#46C4FF"/>
+    <circle cx="1110" cy="530" r="4" fill="#2F73F2"/>
+    <circle cx="1315" cy="565" r="3" fill="#46C4FF"/>
+  </g>
+</svg>

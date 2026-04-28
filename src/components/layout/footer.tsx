@@ -11,13 +11,15 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-secondary">
+    <footer className="bg-gradient-to-br from-secondary to-[#0b2137]">
       <div className="container">
         <div className="flex flex-wrap items-start justify-between gap-8 border-b border-dark_border pb-8 pt-12 md:pb-12 md:pt-20">
           <div className="max-w-420">
             <div className="mb-4 flex items-center gap-2.5">
-              <span className="text-3xl leading-none">⚖️</span>
-              <span className="text-xl font-bold text-white">Meu Direito Agora</span>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-RegalBlue text-lg leading-none text-white shadow-md">
+                ⚖
+              </span>
+              <span className="text-xl font-semibold tracking-tight text-white">Meu Direito Agora</span>
             </div>
             <p className="text-15 font-normal leading-relaxed text-PaleCerulean">
               Plataforma de orientação básica para acesso à informação previdenciária e canais oficiais de saúde.
