@@ -48,16 +48,27 @@ export function HealthComplaints() {
                 href={channel.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 text-17 font-semibold text-primary transition-transform duration-300 hover:translate-x-1"
+                className="group mt-6 inline-flex items-center gap-1 text-17 font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-RegalBlue"
               >
-                Acessar canal oficial ↗
+                <span>Acessar canal oficial</span>
+                <span
+                  aria-hidden="true"
+                  className="inline-block whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                >
+                  ↗
+                </span>
               </a>
             </article>
           ))}
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-          <article className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95">
+          <article
+            data-aos="fade-up"
+            data-aos-delay="220"
+            data-aos-duration="1000"
+            className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95"
+          >
             <h3 className="text-22 font-bold text-secondary dark:text-white">Tipos de manifestação</h3>
             <ul className="mt-4 space-y-3">
               {manifestationTypes.map((item) => (
@@ -69,7 +80,12 @@ export function HealthComplaints() {
             </ul>
           </article>
 
-          <article className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95">
+          <article
+            data-aos="fade-up"
+            data-aos-delay="320"
+            data-aos-duration="1000"
+            className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95"
+          >
             <h3 className="text-22 font-bold text-secondary dark:text-white">Ouvidorias no Tocantins</h3>
             <ul className="mt-4 space-y-3">
               {regionalChannels.map((channel) => (
@@ -78,25 +94,42 @@ export function HealthComplaints() {
                     href={channel.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-16 font-semibold text-primary transition-colors hover:text-RegalBlue"
+                    className="group inline-block text-16 font-semibold text-primary transition-all duration-300 hover:translate-x-0.5 hover:text-RegalBlue"
                   >
-                    {channel.name} ↗
+                    <span>{channel.name}</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-1 inline-block whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    >
+                      ↗
+                    </span>
                   </a>
                 </li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95">
+          <article
+            data-aos="fade-up"
+            data-aos-delay="420"
+            data-aos-duration="1000"
+            className="rounded-14 border border-white/80 bg-white/90 p-7 shadow-sm dark:border-dark_border dark:bg-darkmode/95"
+          >
             <h3 className="text-22 font-bold text-secondary dark:text-white">{ouvidoriasByState.title}</h3>
             <p className="mt-4 text-16 text-SlateBlueText dark:text-darktext">{ouvidoriasByState.description}</p>
             <a
               href={ouvidoriasByState.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 text-16 font-semibold text-primary transition-colors hover:text-RegalBlue"
+              className="group mt-6 inline-flex items-center gap-1 text-16 font-semibold text-primary transition-all duration-300 hover:translate-x-0.5 hover:text-RegalBlue"
             >
-              {ouvidoriasByState.actionLabel} ↗
+              <span>{ouvidoriasByState.actionLabel}</span>
+              <span
+                aria-hidden="true"
+                className="inline-block whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              >
+                ↗
+              </span>
             </a>
           </article>
         </div>
