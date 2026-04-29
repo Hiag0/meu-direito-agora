@@ -1,4 +1,5 @@
 ﻿import { siteContent } from '@/data/content'
+import { SectionScrollLink } from '@/components/ui/section-scroll-link'
 
 const footerLinks = [
   { label: 'Início', href: '#inicio' },
@@ -29,9 +30,12 @@ export function Footer() {
           <ul className="flex flex-wrap items-center gap-x-10 gap-y-3">
             {footerLinks.map((link) => (
               <li key={link.label}>
-                <a href={link.href} className="text-lg font-normal text-PaleCerulean transition-colors duration-300 hover:text-primary">
+                <SectionScrollLink
+                  href={link.href}
+                  className="text-lg font-normal text-PaleCerulean transition-colors duration-300 hover:text-primary"
+                >
                   {link.label}
-                </a>
+                </SectionScrollLink>
               </li>
             ))}
           </ul>
@@ -90,4 +94,3 @@ export function Footer() {
     </footer>
   )
 }
-

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { siteContent } from '@/data/content'
+import { SectionScrollLink } from '@/components/ui/section-scroll-link'
 
 const navLinks = [
   { label: 'Início', href: '#inicio' },
@@ -98,24 +99,24 @@ export function Navbar() {
     >
       <div className="container">
         <div className="flex h-20 items-center justify-between gap-4 md:h-24">
-          <a href="#inicio" className="flex shrink-0 items-center gap-3">
+          <SectionScrollLink href="#inicio" className="flex shrink-0 items-center gap-3">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-RegalBlue text-lg text-white shadow-md">
               ⚖
             </span>
             <span className="text-xl font-semibold tracking-tight text-secondary transition-colors duration-300 dark:text-white">
               Meu Direito Agora
             </span>
-          </a>
+          </SectionScrollLink>
 
           <ul className="hidden items-center gap-7 xl:flex">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <a
+                <SectionScrollLink
                   href={link.href}
                   className="text-17 font-semibold text-secondary/90 transition-colors duration-300 hover:text-primary dark:text-white/90 dark:hover:text-ElectricAqua"
                 >
                   {link.label}
-                </a>
+                </SectionScrollLink>
               </li>
             ))}
           </ul>
@@ -161,12 +162,12 @@ export function Navbar() {
               )}
             </button>
 
-            <a
+            <SectionScrollLink
               href="#verificador"
               className="hidden rounded-xl bg-gradient-to-r from-primary to-RegalBlue px-5 py-2.5 text-16 font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg xl:block"
             >
               Iniciar triagem
-            </a>
+            </SectionScrollLink>
 
             <button
               type="button"
@@ -187,14 +188,14 @@ export function Navbar() {
         <div className="border-t border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur-xl dark:border-dark_border dark:bg-darkmode/95 xl:hidden">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
-              <a
+              <SectionScrollLink
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className="rounded-lg px-3 py-3 text-17 font-medium text-secondary transition-colors hover:bg-gray-50 hover:text-primary dark:text-white dark:hover:bg-darklight"
               >
                 {link.label}
-              </a>
+              </SectionScrollLink>
             ))}
             <div className="pt-3">
               <a
@@ -210,13 +211,13 @@ export function Navbar() {
               </a>
             </div>
             <div className="pt-3">
-              <a
+              <SectionScrollLink
                 href="#verificador"
                 onClick={() => setMenuOpen(false)}
                 className="block w-full rounded-xl bg-gradient-to-r from-primary to-RegalBlue px-4 py-3 text-center text-16 font-semibold text-white shadow-md transition-all duration-300 hover:shadow-lg"
               >
                 Iniciar triagem
-              </a>
+              </SectionScrollLink>
             </div>
           </nav>
         </div>

@@ -1,4 +1,5 @@
 ﻿import { siteContent } from '@/data/content'
+import { SectionScrollLink } from '@/components/ui/section-scroll-link'
 
 export function Hero() {
   const { hero, benefits, institutional } = siteContent
@@ -40,14 +41,14 @@ export function Hero() {
             <p className="pb-8 text-17 text-SlateBlueText dark:text-PaleCerulean md:pb-10">{institutional.reinforcement}</p>
 
             <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000" className="flex flex-wrap items-center gap-4">
-              <a href="#verificador" className="btn btn-1 hover-filled-slide-down">
+              <SectionScrollLink href="#verificador" className="btn btn-1 hover-filled-slide-down">
                 <span>{hero.primaryButton}</span>
-              </a>
-              <a href="#saude" className="btn_outline hover-outline-slide-down">
+              </SectionScrollLink>
+              <SectionScrollLink href="#saude" className="btn_outline hover-outline-slide-down">
                 <span className="dark:!border-white dark:!text-white dark:hover:!text-secondary">
                   {hero.secondaryButton}
                 </span>
-              </a>
+              </SectionScrollLink>
             </div>
           </div>
 
@@ -77,3 +78,5 @@ export function Hero() {
     </section>
   )
 }
+
+
